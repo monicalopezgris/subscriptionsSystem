@@ -1,6 +1,5 @@
 import express from "express";
 import mongoose from "mongoose";
-import "express-async-errors";
 import { json } from "body-parser";
 
 const app = express();
@@ -8,7 +7,7 @@ app.use(json());
 
 const start = async () => {
   try {
-    await mongoose.connect("mongodb://localhost:27017/auth", {
+    await mongoose.connect("mongodb://localhost:27017/subscriptions", {
       useNewUrlParser: true,
       useUnifiedTopology: true,
       useCreateIndex: true,
@@ -24,3 +23,4 @@ const start = async () => {
 };
 
 start();
+export { app };

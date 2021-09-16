@@ -9,14 +9,6 @@ export const errorHandler = (
   res: Response,
   next: NextFunction
 ) => {
-  // if (err instanceof RequestValidationError) {
-  //   return res.status(err.status).send({ errors: err.serializeError() });
-  // }
-
-  // if (err instanceof BadRequestError) {
-  //   return res.status(err.status).send({ errors: err.serializeError() });
-  // }
-
   if (err instanceof CustomError) {
     return res.status(err.status).send({ errors: err.serializeError() });
   }

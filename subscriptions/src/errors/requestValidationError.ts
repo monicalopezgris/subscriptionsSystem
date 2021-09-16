@@ -4,7 +4,7 @@ import { CustomError } from "./customError";
 export class RequestValidationError extends CustomError {
   status = 400;
   constructor(public errors: ValidationError[]) {
-    super("Invalid request parameters");
+    super();
     // Makes the class work correctly after extending from Error
     Object.setPrototypeOf(this, RequestValidationError.prototype);
   }

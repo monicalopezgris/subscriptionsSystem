@@ -1,21 +1,21 @@
 import request from "supertest";
-import { app } from "../../index";
+import { app } from "../../app";
 
 it("should return 200 and the list of subscriptions", async () => {
   await request(app)
     .post("/api/subscription/add")
     .send({
       email: "test@test.dev",
-      olderThan16: true,
+      isOlderThan16: true,
     })
-    .expect(200);
+    .expect(201);
   await request(app)
     .post("/api/subscription/add")
     .send({
       email: "test2@test.dev",
-      olderThan16: true,
+      isOlderThan16: true,
     })
-    .expect(200);
+    .expect(201);
   const subscriptionList = await request(app)
     .get("/api/subscription/all")
     .expect(200);

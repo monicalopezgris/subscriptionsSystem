@@ -1,8 +1,8 @@
 import request from "supertest";
-import { app } from "../../index";
+import { app } from "../../app";
 
 it("should return 400 when the user from the cancel subscription doesn't exist", () => {
-  return request(app).delete("/api/subscription/cancel/888").expect(400);
+  return request(app).delete("/api/subscription/e888").expect(400);
 });
 
 it("should return 200 if correct subscription cancellation", async () => {
@@ -10,10 +10,8 @@ it("should return 200 if correct subscription cancellation", async () => {
     .post("/api/subscription/add")
     .send({
       email: "test@test.dev",
-      olderThan16: true,
+      isOlderThan16: true,
     })
-    .expect(200);
-  await request(app)
-    .delete(`/api/subscription/cancel/${res.body._id}`)
-    .expect(200);
+    .expect(201);
+  await request(app).delete(`/api/subscription/${res.body._id}`).expect(200);
 });

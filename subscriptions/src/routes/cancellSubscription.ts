@@ -15,4 +15,4 @@ router.delete("/api/subscription/:id", async (req: Request, res: Response) => {
   await Subscription.deleteOne({ _id: id });
   res.status(200).send({});
 });
-export { router as getSubscriptionRouter };
+export { router as cancelSubscriptionRouter };

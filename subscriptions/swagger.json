@@ -1,0 +1,210 @@
+{
+    "swagger": "2.0",
+    "info": {
+      "version": "1.0.0",
+      "title": "Subscriptions",
+      "description": "Subscriptions API",
+      "license": {
+        "name": "MIT",
+        "url": "https://opensource.org/licenses/MIT"
+      }
+    },
+    "host": "localhost:3001",
+    "basePath": "/api",
+    "tags": [
+      {
+        "name": "Subscriptions",
+        "description": "API for the subscriptions in the system"
+      }
+    ],
+    "schemes": ["http"],
+    "consumes": ["application/json"],
+    "produces": ["application/json"],
+    "paths": {
+      "/subscription/add": {
+        "post": {
+          "tags": ["Subscriptions"],
+          "summary": "Creates a new subscription",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "parameters":[
+            {
+              "in": "body",
+              "required": true,
+              "schema": {
+                "type": "object",
+                "required": ["email", "isOlderThan16"],
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "example": "test@test.com"
+                  },
+                  "isOlderThan16": {
+                    "type": "boolean",
+                    "example": true
+                  }
+                }
+              }
+            }
+          ],
+          "responses": {
+            "201": {
+              "description": "OK",
+              "schema": {
+                "$ref": "#/definitions/Subscription"
+              }
+            },
+            "400":{
+              "description": "Error: Bad request",
+              "schema": {
+                "$ref": "#/definitions/Errors"
+              }
+            }
+          }
+        }
+      },
+      "/subscription/all": {
+        "get": {
+          "tags": ["Subscriptions"],
+          "summary": "Get all subscriptions in system",
+          "responses": {
+            "200": {
+              "description": "OK",
+              "schema": {
+                "$ref": "#/definitions/SubscriptionList"
+              }
+            },
+            "400":{
+              "description": "Error: Bad request",
+              "schema": {
+                "$ref": "#/definitions/Errors"
+              }
+            }
+          }
+        }
+      },
+      "/subscription/{id}": {
+        "get": {
+          "tags": ["Subscriptions"],
+          "summary": "Returns a subscription by id",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "description": "Id of the subscription we want to get",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "produces": ["application/json"],
+          "responses": {
+            "200": {
+              "description": "OK",
+              "schema": {
+                "$ref": "#/definitions/Subscription"
+              }
+            },
+            "400":{
+              "description": "Error: Bad request",
+              "schema": {
+                "$ref": "#/definitions/Errors"
+              }
+            }
+          }
+        },
+        "delete": {
+          "tags": ["Subscriptions"],
+          "summary": "Delete a subscription by id",
+          "parameters":[
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "description": "Id of the subscription to delete",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "OK",
+              "schema":{
+                "type": "object"
+              }
+            },
+            "400":{
+              "description": "Error: Bad request",
+              "schema": {
+                "$ref": "#/definitions/Errors"
+              }
+            }
+          }
+        }
+      }
+    },
+    "definitions": {
+      "RequestSubscription":{
+        "type": "object",
+        "required": ["email", "isOlderThan16"],
+        "properties": {
+          "email": {
+            "type": "string",
+            "example": "test@test.com"
+          },
+          "isOlderThan16": {
+            "type": "boolean",
+            "example": true
+          }}
+      },
+      "SubscriptionList": {
+        "type": "array",
+        "items":{
+          "$ref": "#/definitions/Subscription"
+        }
+      },
+      "Subscription": {
+        "type": "object",
+        "required": ["email", "_id"],
+        "properties": {
+          "_id": {
+            "type": "string",
+            "uniqueItems": true,
+            "example": "46482e6ft83e8"
+          },
+          "email": {
+            "type": "string",
+            "example": "test@test.com"
+          },
+          "__v":{
+            "type": "integer"
+          }
+        }
+      },
+      "Errors":{
+        "type":"object",
+        "properties":{
+          "errors":{
+            "type":"array",
+            "items": {
+              "$ref": "#/definitions/Error"
+            } 
+          }
+        }
+      },
+      "Error":{
+        "type":"object",
+        "properties": {
+          "message": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }

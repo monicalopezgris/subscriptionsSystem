@@ -10,10 +10,15 @@ import { cancelSubscriptionRouter } from "./routes/cancellSubscription";
 const app = express();
 app.use(json());
 
+const swaggerUi = require("swagger-ui-express"),
+  swaggerDocument = require("../swagger.json");
+
 app.use(addSubscriptionRouter);
 app.use(getAllSubscriptionRouter);
 app.use(getSubscriptionRouter);
 app.use(cancelSubscriptionRouter);
+
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.all("*", async (req, res) => {
   console.error("Not found");
